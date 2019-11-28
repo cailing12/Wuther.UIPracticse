@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # wuther.ui
 
 > A Vue.js project
@@ -28,3 +29,7 @@ npm test
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+=======
+# Wuther.UI
+Vue+Element 后台管理系统
+>>>>>>> 5b8820f2587844cd4505dae1236b8116b7e7fff4
