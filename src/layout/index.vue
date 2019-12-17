@@ -9,7 +9,7 @@
             caicai<i class="el-icon-arrow-down el-icon--right"/>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <div @click="changePassword">
+            <div>
               <el-dropdown-item><i class="el-icon-setting"/>修改密码</el-dropdown-item>
             </div>
             <div @click="exitSystem">
@@ -25,16 +25,17 @@
           :collapse="isCollapse"
           :unique-opened="true"
           router
-          class="el-menu-vertical"
-          @open="handleOpen"
-          @close="handleClose">
+          background-color="#545c64"
+          text-color="#fff"
+          active-text-color="#ffd04b"
+          class="el-menu-vertical">
           <template v-for="(item) in menuList">
             <el-submenu v-if="item.IsContent" :index="item.ID" :key="item.ID">
               <template slot="title">
                 <i class="el-icon-menu"/>
                 <span slot="title">{{ item.Name }}</span>
               </template>
-              <treemenu :menulist="item.List" @addmenutab="addTab"/>
+              <treemenu :menulist="item.List"/>
             </el-submenu>
             <el-menu-item v-else :index="item.ID" :key="item.ID" :route="item.Url">
               <template slot="title">
@@ -45,21 +46,29 @@
           </template>
         </el-menu>
       </template>
-      <template>
-        <keep-alive>
-          <router-view/>
-        </keep-alive>
-      </template>
+      <div class="rightPanel">
+        <el-row class="tagNavBar">
+          <tag-nav/>
+        </el-row>
+        <el-row>
+          <keep-alive>
+            <router-view/>
+          </keep-alive>
+        </el-row>
+      </div>
     </el-container>
   </div>
 </template>
 
 <script>
 import treemenu from './components/tree-menu'
+import Auth from '@/utils/auth'
+import TagNav from './components/TagsView'
 export default {
-  name: 'Login',
+  name: 'Layout',
   components: {
-    treemenu
+    treemenu,
+    TagNav
   },
   data() {
     return {
@@ -74,59 +83,6 @@ export default {
     }
   },
   methods: {
-    addMenuTab(url, name) {
-      var result = this.editableTabs2.some(item => {
-        if (item.title === name) {
-          return true
-        }
-      })
-      if (result) {
-        return
-      }
-      const newTabName = ++this.tabIndex + ''
-      this.editableTabs2.push({
-        title: name,
-        name: newTabName,
-        url: url,
-        content: ''
-      })
-      this.editableTabsValue2 = newTabName
-    },
-    addTab(url, name) {
-      var result = this.editableTabs2.some(item => {
-        if (item.title === name) {
-          return true
-        }
-      })
-      if (result) {
-        return
-      }
-      const newTabName = ++this.tabIndex + ''
-      this.editableTabs2.push({
-        title: name,
-        name: newTabName,
-        url: url,
-        content: ''
-      })
-      this.editableTabsValue2 = newTabName
-    },
-    removeTab(targetName) {
-      const tabs = this.editableTabs2
-      let activeName = this.editableTabsValue2
-      if (activeName === targetName) {
-        tabs.forEach((tab, index) => {
-          if (tab.name === targetName) {
-            const nextTab = tabs[index + 1] || tabs[index - 1]
-            if (nextTab) {
-              activeName = nextTab.name
-            }
-          }
-        })
-      }
-
-      this.editableTabsValue2 = activeName
-      this.editableTabs2 = tabs.filter(tab => tab.name !== targetName)
-    },
     hideMenu() {
       this.isCollapse = !this.isCollapse
     },
@@ -137,10 +93,7 @@ export default {
       // console.log(key, keyPath);
     },
     exitSystem() {
-      window.location.href = '/Login/OutLogin'
-    },
-    changePassword() {
-      this.addTab('/Home/ChangePassword', '修改密码')
+      Auth.removeLoginStatus()
     }
   }
 
@@ -193,5 +146,15 @@ export default {
             padding: 0;
             -webkit-tap-highlight-color: rgba(0,0,0,0);
             min-width: 320px;
+        }
+        .wrapper{
+          width: 100%;
+          height: 100%;
+        }
+        .rightPanel{
+          width: 100%
+        }
+        .tagNavBar{
+          text-align: left
         }
     </style>

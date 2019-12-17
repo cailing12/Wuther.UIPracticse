@@ -7,6 +7,7 @@
 
 <script>
 export default {
+  name: 'Department',
   methods: {
     back() {
       this.$router.go(-1)

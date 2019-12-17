@@ -64,10 +64,20 @@ export default {
           lett.form.password = lett.common.removeSpace(lett.form.password.trim())
           lett.form.webid = lett.common.removeSpace(lett.form.webid.trim())
           // lett.form.password = b64_md5(lett.form.password)
-          Cookies.set('username', 'lett.form.username')
-          Cookies.set('isLogin', true)
-          this.$router.push({ path: '/home', query: {}})
-          loading.close()
+          this.$axios({
+            url: 'https://localhost:44306/api/login',
+            method: 'get'
+          }).then(res => {
+            if (res.code === 200) {
+              Cookies.set('username', 'lett.form.username')
+              Cookies.set('isLogin', true)
+              loading.close()
+              this.$router.push({ path: '/home', query: {}})
+            }
+          }).catch(err => {
+            console.warn(`获取数据失败。${err}`)
+            loading.close()
+          })
           // lett.$http
           //   .post('/Login/login', { user: lett.form }, { emulateJSON: true })
           //   .then(

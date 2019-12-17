@@ -6,7 +6,7 @@
           <i class="el-icon-location"/>
           <span slot="title">{{ item.Name }}</span>
         </template>
-        <treemenu menulist="menu.List" @@addmenutab="addTab"/>
+        <treemenu menulist="menu.List"/>
       </el-submenu>
       <el-menu-item v-else :index="item.ID" :key="item.ID" :route="item.Url">
         {{ item.Name }}
@@ -23,14 +23,6 @@ export default {
       default: function name() {
         return []
       }
-    }
-  },
-  methods: {
-    addMenuTab: function(url, name) {
-      this.$emit('addmenutab', url, name)
-    },
-    addTab: function(url, name) {
-      this.$emit('addmenutab', url, name)
     }
   }
 }

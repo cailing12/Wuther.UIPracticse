@@ -2,9 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import { Message } from 'element-ui'
+// import { Message } from 'element-ui'
 import Auth from '@/utils/auth'
-import store from '../store'
+// import store from '../store'
 import staticRoute from './staticRoute'
 import whiteList from './whiteList'
 var permissionList = []
@@ -91,11 +91,11 @@ router.beforeEach((to, from, next) => {
       console.warn('当前未处于登录状态，请登录')
       next({ path: '/login', replace: true })
       // 如果store中有token，同时Cookie中没有登录状态
-      if (store.state.user.token) {
-        Message({
-          message: '登录超时，请重新登录'
-        })
-      }
+      // if (store.state.user.token) {
+      //   Message({
+      //     message: '登录超时，请重新登录'
+      //   })
+      // }
       NProgress.done()
     }
   }

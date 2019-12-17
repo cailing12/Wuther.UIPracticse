@@ -27,6 +27,11 @@
         <el-checkbox label="地推活动" name="type" />
         <el-checkbox label="线下主题活动" name="type" />
         <el-checkbox label="单纯品牌曝光" name="type" />
+        <el-checkbox label="单纯品牌曝光" name="type" />
+        <el-checkbox label="单纯品牌曝光" name="type" />
+        <el-checkbox label="单纯品牌曝光" name="type" />
+        <el-checkbox label="单纯品牌曝光" name="type" />
+        <el-checkbox label="单纯品牌曝光" name="type" />
       </el-checkbox-group>
     </el-form-item>
     <el-form-item label="特殊资源">
@@ -46,7 +51,7 @@
 </template>
 <script>
 export default {
-  name: 'Login',
+  name: 'Home',
   data() {
     return {
       form: {
