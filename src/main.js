@@ -7,6 +7,7 @@ import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import common from '@/api/common.js'
 import axios from './utils/request'
+// import axios from 'axios'
 import store from './store'
 
 Vue.config.productionTip = false

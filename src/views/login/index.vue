@@ -7,14 +7,14 @@
     <el-form-item label="密码" prop="password">
       <el-input v-model="form.password" type="password" autocomplete="new-password"/>
     </el-form-item>
-    <el-form-item label="唯一识别码" prop="webid">
-      <el-input v-model="form.webid" type="text"/>
+    <el-form-item label="验证码" prop="verifycode">
+      <el-input v-model="form.verifycode" type="text"/>
     </el-form-item>
-    <el-button type="primary" style="margin-left: 38%" @click="login('form')">登陆</el-button>
+    <el-button type="primary" style="margin-left: 38%" @click="submitForm('form')">登陆</el-button>
   </el-form>
 </template>
 <script>
-import Cookies from 'js-cookie'
+import { mapActions } from 'vuex'
 export default {
   name: 'Login',
   data() {
@@ -22,15 +22,15 @@ export default {
       form: {
         username: '',
         password: '',
-        webid: ''
+        verifycode: ''
       },
       rules: {
         username: [
           { required: true, message: '请输入用户名', trigger: 'blur' }
         ],
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-        webid: [
-          { required: true, message: '请输入唯一识别码', trigger: 'blur' }
+        verifycode: [
+          { required: true, message: '请输入验证码', trigger: 'blur' }
         ]
       }
     }
@@ -41,7 +41,7 @@ export default {
       document.onkeydown = function(e) {
         var key = window.event.keyCode
         if (key === 13) {
-          lett.login('form')
+          lett.submitForm('form')
         }
       }
     })
@@ -50,7 +50,11 @@ export default {
     this.$nextTick(function() {})
   },
   methods: {
-    login(formName) {
+    ...mapActions({
+      login: 'auth/loginByUserName',
+      loadLang: 'loadLang'
+    }),
+    submitForm(formName) {
       var lett = this
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -62,22 +66,45 @@ export default {
           })
           lett.form.username = lett.common.removeSpace(lett.form.username)
           lett.form.password = lett.common.removeSpace(lett.form.password.trim())
-          lett.form.webid = lett.common.removeSpace(lett.form.webid.trim())
-          // lett.form.password = b64_md5(lett.form.password)
-          this.$axios({
-            url: 'https://localhost:44306/api/login',
-            method: 'get'
+          lett.form.verifycode = lett.common.removeSpace(lett.form.verifycode.trim())
+          this.login({
+            username: lett.form.username,
+            password: lett.form.password,
+            verifycode: lett.form.verifycode
           }).then(res => {
             if (res.code === 200) {
-              Cookies.set('username', 'lett.form.username')
-              Cookies.set('isLogin', true)
               loading.close()
-              this.$router.push({ path: '/home', query: {}})
+              lett.$router.push({ path: '/home', query: {}})
+            } else {
+              console.warn(res.message)
+              loading.close()
             }
           }).catch(err => {
             console.warn(`获取数据失败。${err}`)
             loading.close()
           })
+          // lett.form.password = b64_md5(lett.form.password)
+
+          // this.$http.get('/api/login')
+          //   .then(res => {
+          //     alert(111)
+          //   })
+
+          // this.$http({
+          //   url: 'api/login',
+          //   method: 'get'
+          // }).then(res => {
+          //   if (res.code === 200) {
+          //     alert(111)
+          //     // Cookies.set('username', 'lett.form.username')
+          //     // Cookies.set('isLogin', true)
+          //     loading.close()
+          //     this.$router.push({ path: '/home', query: {}})
+          //   }
+          // }).catch(err => {
+          //   console.warn(`获取数据失败。${err}`)
+          //   loading.close()
+          // })
           // lett.$http
           //   .post('/Login/login', { user: lett.form }, { emulateJSON: true })
           //   .then(

@@ -1,15 +1,15 @@
 <template>
   <div class="menu-tree">
-    <div v-for="item in menulist" :key="item.ID">
-      <el-submenu v-if="item.IsContent" :key="item.ID" index="item.ID">
+    <div v-for="item in menulist" :key="item.id">
+      <el-submenu v-if="item.IsContent" :key="item.id" :index="String(item.id)">
         <template slot="title">
           <i class="el-icon-location"/>
-          <span slot="title">{{ item.Name }}</span>
+          <span slot="title">{{ item.name }}</span>
         </template>
-        <treemenu menulist="menu.List"/>
+        <treemenu menulist="menu.list"/>
       </el-submenu>
-      <el-menu-item v-else :index="item.ID" :key="item.ID" :route="item.Url">
-        {{ item.Name }}
+      <el-menu-item v-else :index="String(item.id)" :key="item.id" :route="item.url">
+        {{ item.name }}
       </el-menu-item>
     </div>
   </div>

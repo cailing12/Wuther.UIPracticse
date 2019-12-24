@@ -1,5 +1,4 @@
 import request from '@/utils/request'
-import axios from 'axios'
 import Auth from '@/utils/auth'
 const state = {
   token: '',
@@ -17,6 +16,23 @@ const mutations = {
 }
 
 const actions = {
+  loginByUserName({ commit }, userInfo) {
+    return new Promise((resolve) => {
+      request({
+        url: 'api/login',
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        data: userInfo
+      }).then(res => {
+        if (res.code === 200) {
+          commit('setToken', res.token)
+          Auth.setLoginStatus()
+          // commit('user/setName', res.name, { root: true })
+        }
+        resolve(res)
+      })
+    })
+  },
   loginout({ commit }) {
     return new Promise((resolve) => {
       commit('setToken', '')
@@ -28,12 +44,15 @@ const actions = {
   // 获取新Token
   getNewToken({ commit, state }) {
     return new Promise((resolve) => {
-      axios.get('https://localhost:44306/api/user')
-        .then(function(response) {
-          console.log(response)
-          commit('setToken', response.data.token)
-          resolve()
-        })
+      request({
+        url: 'api/user',
+        method: 'get'
+      }).then(res => {
+        if (res.code === 200) {
+          commit('setToken', res.token)
+        }
+        resolve(res)
+      })
     })
   },
 

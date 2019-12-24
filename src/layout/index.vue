@@ -30,17 +30,17 @@
           active-text-color="#ffd04b"
           class="el-menu-vertical">
           <template v-for="(item) in menuList">
-            <el-submenu v-if="item.IsContent" :index="item.ID" :key="item.ID">
+            <el-submenu v-if="item.isContent" :index="String(item.id)" :key="item.id">
               <template slot="title">
                 <i class="el-icon-menu"/>
-                <span slot="title">{{ item.Name }}</span>
+                <span slot="title">{{ item.name }}</span>
               </template>
-              <treemenu :menulist="item.List"/>
+              <treemenu :menulist="item.list"/>
             </el-submenu>
-            <el-menu-item v-else :index="item.ID" :key="item.ID" :route="item.Url">
+            <el-menu-item v-else :index="String(item.id)" :key="item.id" :route="item.url">
               <template slot="title">
-                <i :class="item.Icon"/>
-                <span slot="title">{{ item.Name }}</span>
+                <i :class="item.icon"/>
+                <span slot="title">{{ item.name }}</span>
               </template>
             </el-menu-item>
           </template>
@@ -75,12 +75,21 @@ export default {
       isCollapse: false,
       name: 'Vue.js',
       tabIndex: 2,
-      menuList: [
-        { 'ID': 'aa', 'Name': '保单查询', 'Url': '/permission/group', 'IsContent': true, 'Icon': 'el-icon-tickets', 'List': [
-          { 'ID': 'cc', 'Name': '子菜单', 'Url': '/permission/department', 'IsContent': false, 'Icon': 'el-icon-tickets', 'List': [] }
-        ] },
-        { 'ID': 'bb', 'Name': '用户管理', 'Url': '/permission/roles', 'IsContent': false, 'Icon': 'el-icon-setting', 'List': [] }]
+      menuList: []
     }
+  },
+  beforeCreate() {
+    this.$axios({
+      url: 'api/menus',
+      method: 'get'
+    }).then(res => {
+      if (res.code === 200) {
+        this.menuList = res.data
+        console.log(res.data)
+      }
+    }).catch(err => {
+      console.warn(`获取数据失败。${err}`)
+    })
   },
   methods: {
     hideMenu() {

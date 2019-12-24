@@ -11,21 +11,15 @@ var requestList = []
 function checkToken(cancel, callback) {
   if (!Auth.hasToken()) {
     if (Auth.tokenTimeoutMethod === 'getNewToken') {
-      if (getTokenLock) {
-        setTimeout(checkToken(cancel, callback), 500)
-      } else {
+      if (!getTokenLock) {
         getTokenLock = true
-        // axios.get('https://localhost:44306/api/values')
-        //   .then(function(response) {
-        //     console.log(response)
-        //     callback()
-        //     getTokenLock = false
-        //   })
-
-        store.dispatch('auth/getNewToken').then(() => {
-          console.log('以获取新token')
-          callback()
+        store.dispatch('auth/getNewToken').then((res) => {
+          console.log('已获取新token')
+          if (!Auth.hasToken()) {
+            checkToken(cancel, callback)
+          }
           getTokenLock = false
+          callback()
         })
       }
     }

@@ -22,7 +22,7 @@ const authToken = {
   // 设置Token
   setToken: function(token) {
     // TODO: 设置token，并填写有效期
-    var maxAge = new Date(new Date().getTime() + 30 * 1000)
+    var maxAge = new Date(new Date().getTime() + 300 * 1000)
     Cookies.set('token', token, {
       expires: maxAge
     })
@@ -46,6 +46,7 @@ const authToken = {
   // 移除登录状态
   removeLoginStatus: function() {
     Cookies.remove(this.loginKey)
+    Cookies.remove('token')
   }
 }
 
