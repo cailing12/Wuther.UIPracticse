@@ -103,6 +103,7 @@ export default {
     },
     exitSystem() {
       Auth.removeLoginStatus()
+      this.$router.push({ path: '/login', query: {}})
     }
   }
 

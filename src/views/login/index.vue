@@ -80,47 +80,9 @@ export default {
               loading.close()
             }
           }).catch(err => {
-            console.warn(`获取数据失败。${err}`)
+            //console.warn(`获取数据失败。${err}`)
             loading.close()
           })
-          // lett.form.password = b64_md5(lett.form.password)
-
-          // this.$http.get('/api/login')
-          //   .then(res => {
-          //     alert(111)
-          //   })
-
-          // this.$http({
-          //   url: 'api/login',
-          //   method: 'get'
-          // }).then(res => {
-          //   if (res.code === 200) {
-          //     alert(111)
-          //     // Cookies.set('username', 'lett.form.username')
-          //     // Cookies.set('isLogin', true)
-          //     loading.close()
-          //     this.$router.push({ path: '/home', query: {}})
-          //   }
-          // }).catch(err => {
-          //   console.warn(`获取数据失败。${err}`)
-          //   loading.close()
-          // })
-          // lett.$http
-          //   .post('/Login/login', { user: lett.form }, { emulateJSON: true })
-          //   .then(
-          //     function(res) {
-          //       if (res.body.code === 200) {
-          //         // window.location.href = '/Home/Index'
-          //         // this.$router.push({ path: '/home', query: {}})
-          //       } else {
-          //         alert(res.body.msg)
-          //       }
-          //       loading.close()
-          //     },
-          //     function(res) {
-          //       console.log(res.status)
-          //     }
-          //   )
         } else {
           lett.$message.error('请按照要求输入登陆信息！')
           return false
